@@ -1,7 +1,12 @@
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here
-      
-      echo 'Hello world'
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo 'Hello world'
