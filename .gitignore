@@ -1,0 +1,10 @@
+.terraform
+*Key.pem
+*.p12
+.terraform.lock.hcl
+client
+client.zip
+*.log
+*.ovpn
+*.tfstate
+*.tfstate.backup
