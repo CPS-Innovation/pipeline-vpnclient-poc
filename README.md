@@ -1,15 +1,17 @@
 # Demo of azure vnet and VPN client that can be used by humans and also devops pipelines
 
-
 ## Initial terraform apply
+
 ```bash
 terraform apply --auto-approve
 ```
+
 The vnet gateway takes about 40mins to start up, so go make some coffee.
 
 It will fail eventually because you're not connected to the vpn with routing or access to the storage account (thats a good thing, proves it works)
 
 ## Get the VPN client config, and connect to the VPN
+
 ```bash
 curl -o client.zip $(az network vnet-gateway vpn-client generate -n gateway -g example-resources | tr -d '"')
 unzip client.zip -d client
@@ -19,9 +21,11 @@ sudo openvpn vpnconfig.ovpn&
 ```
 
 ## Terraform apply again
+
 ```bash
 terraform apply --auto-approve
 ```
+
 This should succeed now
 
 ## Prove everything works:
