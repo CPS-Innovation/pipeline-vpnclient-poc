@@ -27,4 +27,4 @@ steps:
     env:
       VPNKEY: $(vpnkey)
       VPNCRT: $(vpncrt)
-      VPNCONFIG: $(VPNCONFIG)
+      VPNCONFIG: $(vpnconfig)
