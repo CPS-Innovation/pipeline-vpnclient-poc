@@ -10,7 +10,7 @@ steps:
       sudo apt-get --assume-yes --no-install-recommends install openvpn netcat
       echo $VPNCRT > vpncrt.crt
       echo $VPNKEY > vpnkey.key
-      echo $VPNCONFIG > tempvpnconfig.ovpn
+      echo $VPNCONFIG | base64 -d > tempvpnconfig.ovpn
 
       # curl -o client.zip $(az network vnet-gateway vpn-client generate -n gateway -g example-resources | tr -d '"')
       # unzip client.zip -d client
